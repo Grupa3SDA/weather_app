@@ -1,0 +1,65 @@
+/* Resetowanie domyślnych styli */
+body, h1, h2, h3, p, ul, li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+/* Globalne style */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Style nagłówka */
+.header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+}
+
+/* Style paska nawigacyjnego */
+.navbar {
+    background-color: #444;
+    color: #fff;
+    padding: 10px 0;
+}
+
+.navbar-nav {
+    text-align: right;
+}
+
+.navbar-nav li {
+    display: inline;
+    margin-left: 20px;
+}
+
+.navbar-nav a {
+    text-decoration: none;
+    color: #fff;
+}
+
+/* Style sekcji głównej */
+.main {
+    padding: 20px 0;
+}
+
+.weather-container {
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.weather-container h2 {
+    margin-bottom: 10px;
+}
+
+/* Dodaj więcej stylów według własnych preferencji */
