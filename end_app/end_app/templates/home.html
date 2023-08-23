@@ -17,8 +17,8 @@
     <nav class="navbar">
         <div class="container">
             <ul class="navbar-nav">
-                <li><a href="#">Login</a></li>
-                <li><a href="#">Register</a></li>
+                <li><a href="#">Sign in</a></li>
+                <li><a href="#">Sign up</a></li>
             </ul>
         </div>
     </nav>
@@ -30,12 +30,15 @@
                 <button type="submit">Search</button>
             </form>
             <div class="weather-container">
-                {% if weather_data %}
-                    <h2>Weather Information</h2>
+                {% if error_message %}
+                    <p class="error-message">{{ error_message }}</p>
+                {% elif weather_data %}
+                    <h2>Weather Information for {{ weather_data.name }}</h2>
                     <p>City: {{ weather_data.name }}, {{ weather_data.sys.country }}</p>
                     <p>Coordinates: {{ weather_data.coord.lat }}, {{ weather_data.coord.lon }}</p>
-                    <p>Weather: {{ weather_data.weather.0.description }}, <img src="http://openweathermap.org/img/wn/{{ weather_data.weather.0.icon }}.png" alt="Weather Icon"></p></p>
-
+                    <p>Weather: {{ weather_data.weather.0.description }},
+                        <img src="http://openweathermap.org/img/wn/{{ weather_data.weather.0.icon }}.png" alt="Weather Icon">
+                    </p>
                     <p>Temperature: {{ weather_data.main.temp }}°C</p>
                     <p>Feels Like: {{ weather_data.main.feels_like }}°C</p>
                     <p>Min Temperature: {{ weather_data.main.temp_min }}°C</p>
@@ -44,17 +47,16 @@
                     <p>Humidity: {{ weather_data.main.humidity }}%</p>
                     <p>Wind Speed: {{ weather_data.wind.speed }} m/s</p>
                     <p>Wind Direction: {{ weather_data.wind.deg }}°</p>
-                    <p>Visibility: {{ weather_data.visibility }} meters</p>
-                    <p>Cloudiness: {{ weather_data.clouds.all }}%</p>
+                    <p>Visibility: {{ weather_data.additional_info.visibility }} meters</p>
+                    <p>Cloudiness: {{ weather_data.additional_info.cloudiness }}%</p>
                     <p>Sunrise: {{ weather_data.additional_info.sunrise }}</p>
                     <p>Sunset: {{ weather_data.additional_info.sunset }}</p>
-                    <p>UV Index: {{ weather_data.uvi }}</p>
-                    <p>Air Quality Index: {{ weather_data.main.aqi }}</p>
+                    <p>UV Index: {{ weather_data.additional_info.uvi }}</p>
+                    <p>Air Quality Index: {{ weather_data.additional_info.aqi }}</p>
                     <p>Rain (1h): {{ weather_data.additional_info.rain_1h }} mm</p>
                     <p>Rain (3h): {{ weather_data.additional_info.rain_3h }} mm</p>
                     <p>Snow (1h): {{ weather_data.additional_info.snow_1h }} mm</p>
                     <p>Snow (3h): {{ weather_data.additional_info.snow_3h }} mm</p>
-                    <!-- You can add more fields as needed -->
                 {% endif %}
             </div>
         </div>

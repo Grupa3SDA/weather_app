@@ -1,11 +1,11 @@
-/* Resetowanie domyślnych styli */
+/* Reset default styles */
 body, h1, h2, h3, p, ul, li {
     margin: 0;
     padding: 0;
     list-style: none;
 }
 
-/* Globalne style */
+/* Global styles */
 body {
     font-family: Arial, sans-serif;
     background-color: #f7f7f7;
@@ -17,7 +17,7 @@ body {
     padding: 20px;
 }
 
-/* Style nagłówka */
+/* Header styles */
 .header {
     background-color: #333;
     color: #fff;
@@ -25,7 +25,7 @@ body {
     text-align: center;
 }
 
-/* Style paska nawigacyjnego */
+/* Navigation bar styles */
 .navbar {
     background-color: #444;
     color: #fff;
@@ -46,7 +46,7 @@ body {
     color: #fff;
 }
 
-/* Style sekcji głównej */
+/* Main section styles */
 .main {
     padding: 20px 0;
 }
@@ -61,5 +61,3 @@ body {
 .weather-container h2 {
     margin-bottom: 10px;
 }
-
-/* Dodaj więcej stylów według własnych preferencji */

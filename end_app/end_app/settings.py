@@ -14,6 +14,7 @@ from pathlib import Path
 import dotenv
 
 dotenv.load_dotenv()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -23,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv("SECRET_KEY")
-appid = os.getenv("appid")
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG") == "True"
@@ -40,8 +41,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    'end_app',  # dodana główna aplikacja
-    'weather_app',  # dodana aplikacja dla wyświetlania pogody
+    'end_app',  # added project application
+    'weather_app',  # added application
 ]
 
 MIDDLEWARE = [
@@ -126,3 +127,8 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+# Added for project production
+# SECURITY WARNING: keep the weather api key used in production secret!
+WEATHER_API_KEY = os.getenv("WEATHER_API_KEY")

@@ -1,17 +1,22 @@
 import requests
-import os
-from dotenv import load_dotenv
 from datetime import datetime
+from end_app.settings import WEATHER_API_KEY
+
 
 def get_weather_data(city_name):
-    load_dotenv()
-    api_key = os.getenv("api_key")
-    base_url = f'http://api.openweathermap.org/data/2.5/weather?q={city_name}&units=metric&appid={api_key}'
-
-    response = requests.get(base_url)
+    api_url = f'http://api.openweathermap.org/data/2.5/weather?q={city_name}&units=metric&appid={WEATHER_API_KEY}'
+    response = requests.get(api_url)
     data = response.json()
 
-    # Pobranie dodatkowych informacji (przykładowe pola, może być inaczej z API)
+    # error handling
+    if response.status_code == 500:
+        raise Exception("Internal server error in API")
+    elif response.status_code == 404:
+        return {'error': 'City not found'}
+    elif response.status_code != 200:
+        return {'error': 'Error fetching weather data'}
+
+    # getting additional information from API (sample values from the API)
     additional_info = {
         'cloudiness': data['clouds']['all'],
         'sunrise': datetime.utcfromtimestamp(data['sys']['sunrise']).strftime('%H:%M:%S'),
@@ -35,10 +40,7 @@ def get_weather_data(city_name):
         'snow_3h': data.get('snow', {}).get('3h', 0),
     }
 
-    # Dodaj dodatkowe informacje do danych pogodowych
+    # Add additional information to weather data
     data['additional_info'] = additional_info
 
     return data
-
-
-
