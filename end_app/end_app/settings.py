@@ -132,3 +132,5 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # Added for project production
 # SECURITY WARNING: keep the weather api key used in production secret!
 WEATHER_API_KEY = os.getenv("WEATHER_API_KEY")
+FORECAST_API_KEY = os.getenv("FORECAST_API_KEY")
+AIR_POLLUTION_API_KEY = os.getenv("AIR_POLLUTION_API_KEY")

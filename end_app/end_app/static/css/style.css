@@ -1,14 +1,15 @@
-/* Reset default styles */
-body, h1, h2, h3, p, ul, li {
+/* Reset basic styles */
+* {
     margin: 0;
     padding: 0;
-    list-style: none;
+    box-sizing: border-box;
 }
 
 /* Global styles */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f7f7f7;
+    background-color: #f5f5f5;
+    color: #333;
 }
 
 .container {
@@ -17,47 +18,98 @@ body {
     padding: 20px;
 }
 
-/* Header styles */
+/* Header */
 .header {
-    background-color: #333;
-    color: #fff;
-    padding: 10px 0;
+    background-color: #2b2d30;
+    color: white;
     text-align: center;
+    padding: 20px 0;
 }
 
-/* Navigation bar styles */
+.header h1 {
+    font-size: 36px;
+}
+
+/* Navbar */
 .navbar {
-    background-color: #444;
-    color: #fff;
-    padding: 10px 0;
+    background-color: #2b2d30;
 }
 
 .navbar-nav {
-    text-align: right;
+    list-style: none;
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px 0;
 }
 
 .navbar-nav li {
-    display: inline;
-    margin-left: 20px;
+    margin-right: 20px;
 }
 
 .navbar-nav a {
+    color: white;
     text-decoration: none;
-    color: #fff;
 }
 
-/* Main section styles */
+/* Main */
 .main {
     padding: 20px 0;
 }
 
-.weather-container {
-    background-color: #fff;
-    border-radius: 5px;
-    padding: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+/* Search Bar */
+#search-bar button {
+    background-color: #2b2d30;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
 }
 
-.weather-container h2 {
+/* Weather Info */
+#weather-info {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#weather {
+    flex: 1;
+    background-color: #fff;
+    padding: 20px;
+    margin-right: 20px;
+}
+
+.error-message {
+    color: #f44336;
+}
+
+#forecast {
+    flex: 1;
+    background-color: #fff;
+    padding: 20px;
+}
+
+.forecast-list {
+    list-style: none;
+    padding: 0;
+}
+
+.forecast-item {
     margin-bottom: 10px;
+}
+
+.forecast-time {
+    font-weight: bold;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .navbar-nav {
+        justify-content: center;
+    }
+
+    #weather, #forecast {
+        margin-right: 0;
+        margin-top: 20px;
+    }
 }
