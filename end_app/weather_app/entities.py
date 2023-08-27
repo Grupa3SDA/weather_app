@@ -3,7 +3,7 @@ from datetime import datetime
 
 
 @dataclass
-class Weather:
+class WeatherData:
     time: str
     latitude: float
     longitude: float
@@ -23,7 +23,7 @@ class Weather:
     sunset: str
 
     @classmethod
-    def from_weather_data(cls, weather_data):
+    def from_raw_weather_data(cls, weather_data):
         wind_deg = weather_data['wind']['deg']
         cardinal_directions = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE',
                                'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW']
@@ -51,7 +51,7 @@ class Weather:
 
 
 @dataclass
-class Forecast:
+class ForecastData:
     date: str
     time: str
     weather_icon: str
@@ -61,16 +61,16 @@ class Forecast:
     temp_min: str
 
     @classmethod
-    def from_forecast_data(cls, forecast_data):
+    def from_raw_forecast_data(cls, forecast_data):
         forecasts_by_date = {}
         time_map = {
-            '00:00:00': 'Late Night',
-            '03:00:00': 'Early Morning',
+            '00:00:00': 'Midnight',
+            '03:00:00': 'Late Night',
             '06:00:00': 'Early Morning',
-            '09:00:00': 'Late Morning',
-            '12:00:00': 'Early Afternoon',
-            '15:00:00': 'Late Afternoon',
-            '18:00:00': 'Early Evening',
+            '09:00:00': 'Morning',
+            '12:00:00': 'Noon',
+            '15:00:00': 'Afternoon',
+            '18:00:00': 'Evening',
             '21:00:00': 'Late Evening'
         }
         for forecast in forecast_data['list']:
@@ -101,7 +101,7 @@ class Forecast:
 
 
 @dataclass
-class AirPollution:
+class AirPollutionData:
     aqi: int
     co: int
     no: int
@@ -113,7 +113,7 @@ class AirPollution:
     nh3: int
 
     @classmethod
-    def from_air_pollution_data(cls, air_pollution_data):
+    def from_raw_air_pollution_data(cls, air_pollution_data):
         return cls(
             aqi=air_pollution_data["list"][0]["main"]["aqi"],
             co=air_pollution_data['list'][0]['components']["co"],

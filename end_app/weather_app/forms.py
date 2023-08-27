@@ -1,5 +1,5 @@
 from django import forms
 
 
-class CityForm(forms.Form):
+class CityFormForWeather(forms.Form):
     city_name = forms.CharField(label="Search city", max_length=20)
