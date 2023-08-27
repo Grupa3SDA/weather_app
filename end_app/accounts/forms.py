@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 
 
 class LoginForm(forms.Form):
@@ -12,6 +12,7 @@ class UserRegistrationForms(forms.ModelForm):
     password2 = forms.CharField(label="Repeat password", widget=forms.PasswordInput)
 
     class Meta:
+        User = get_user_model()
         model = User
         fields = ["username", "first_name", "email"]
 
