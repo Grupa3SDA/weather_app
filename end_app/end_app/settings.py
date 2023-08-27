@@ -41,8 +41,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    'end_app',  # added project application
-    'weather_app',  # added application
+    'end_app',
+    'weather_app',
 ]
 
 MIDDLEWARE = [
@@ -60,7 +60,7 @@ ROOT_URLCONF = "end_app.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR / 'weather_app' / 'templates'],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [

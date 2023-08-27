@@ -2,4 +2,4 @@ from django import forms
 
 
 class CityForm(forms.Form):
-    city = forms.CharField(label='Enter city name', max_length=20)
+    city_name = forms.CharField(label="Search city", max_length=20)

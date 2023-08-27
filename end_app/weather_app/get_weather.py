@@ -1,57 +1,39 @@
 import requests
-from datetime import datetime
-from end_app.settings import WEATHER_API_KEY
-from end_app.settings import FORECAST_API_KEY
-from end_app.settings import AIR_POLLUTION_API_KEY
+from django.conf import settings
 
 
 def get_weather_data(city_name):
-    weather_url = (f'https://api.openweathermap.org/data/2.5/weather?q={city_name}'
-                   f'&units=metric&appid={WEATHER_API_KEY}')
-    response = requests.get(weather_url)
-    data = response.json()
+    weather_url = (
+        f"https://api.openweathermap.org/data/2.5/weather?q={city_name}"
+        f"&units=metric&appid={settings.WEATHER_API_KEY}"
+    )
 
-    # error handling
-    if response.status_code == 500:
-        raise Exception("Internal server error in API")
-    elif response.status_code == 404:
-        return {'error': 'City not found'}
-    elif response.status_code != 200:
-        return {'error': 'Error fetching weather data'}
+    response_weather = requests.get(weather_url)
+    response_weather.raise_for_status()
+    weather_data = response_weather.json()
 
-    # additional information from API that must be formatted
-    additional_info = {
-        'cloudiness': data['clouds']['all'],
-        'sunrise': datetime.utcfromtimestamp(data['sys']['sunrise']).strftime('%H:%M:%S'),
-        'sunset': datetime.utcfromtimestamp(data['sys']['sunset']).strftime('%H:%M:%S'),
-        'visibility': data.get('visibility', 'N/A'),
-        'uvi': data.get('uvi', 'N/A'),
-        'aqi': data.get('aqi', 'N/A'),
-        'rain_1h': data.get('rain', {}).get('1h', 0),
-        'rain_3h': data.get('rain', {}).get('3h', 0),
-        'snow_1h': data.get('snow', {}).get('1h', 0),
-        'snow_3h': data.get('snow', {}).get('3h', 0),
-    }
-
-    # add formatted additional information to weather data
-    data['additional_info'] = additional_info
-
-    return data
+    return weather_data
 
 
 def get_forecast_data(latitude, longitude):
-    forecast_url = (f'https://api.openweathermap.org/data/2.5/forecast?lat={latitude}&lon={longitude}'
-                    f'&units=metric&appid={FORECAST_API_KEY}')
-    response = requests.get(forecast_url)
-    data = response.json()
+    forecast_url = (
+        f"https://api.openweathermap.org/data/2.5/forecast?lat={latitude}&lon={longitude}"
+        f"&units=metric&appid={settings.FORECAST_API_KEY}"
+    )
+    response_forecast = requests.get(forecast_url)
+    response_forecast.raise_for_status()
+    forecast_data = response_forecast.json()
 
-    return data
+    return forecast_data
 
 
 def get_air_pollution_data(latitude, longitude):
-    air_polution_url = (f'https://api.openweathermap.org/data/2.5/air_pollution?lat={latitude}&lon={longitude}'
-                        f'&appid={AIR_POLLUTION_API_KEY}')
-    response = requests.get(air_polution_url)
-    data = response.json()
+    air_pollution_url = (
+        f"https://api.openweathermap.org/data/2.5/air_pollution?lat={latitude}&lon={longitude}"
+        f"&appid={settings.AIR_POLLUTION_API_KEY}"
+    )
+    response_air_pollution = requests.get(air_pollution_url)
+    response_air_pollution.raise_for_status()
+    air_pollution_data = response_air_pollution.json()
 
-    return data
+    return air_pollution_data
