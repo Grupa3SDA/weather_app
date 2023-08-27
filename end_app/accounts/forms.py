@@ -1,3 +1,5 @@
+from datetime import date
+
 from django import forms
 from django.contrib.auth import get_user_model
 
@@ -36,3 +38,9 @@ class ProfileEditForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ["date_of_birth", "photo"]
+
+    def clean_date_of_birth(self):
+        data = self.cleaned_data["date_of_birth"]
+        if data > date.today():
+            raise forms.ValidationError("Your date of birth cannot be in the future")
+        return data
