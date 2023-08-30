@@ -1,30 +1,33 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Weather App</title>
+    <link href="{% static "css/base.css" %}" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <h1>Weather App</h1>
+    <header id="header">
+        <span class="logo">Weather App</span>
+        <nav class="navbar">
+            <div id="navbar-info">
+                {% if user.is_authenticated %}
+                    <h3>Welcome, {{ user.username }}!</h3>
+                {% else %}
+                    <h3>Welcome, Guest User!</h3>
+                {% endif %}
+            </div>
+            <div id="navbar-sign">
+                <ul class="navbar-nav">
+                    <li><a class="navbar-link" href="">Home page</a></li>
+                    <li><a class="navbar-link" href="#">Sign in</a></li>
+                    <li><a class="navbar-link" href="#">Sign up</a></li>
+                </ul>
+            </div>
+        </nav>
     </header>
 
-    <nav class="navbar">
-        <div id="navbar-info" class="container">
-            {% if user.is_authenticated %}
-            <h3>Welcome, {{ user.username }}!</h3>
-            {% else %}
-            <h3>Welcome, Guest User!</h3>
-            {% endif %}
-        </div>
-        <div id="navbar-sign" class="container">
-            <ul class="navbar-nav">
-                <li><a href="">Home page</a> </li>
-                <li><a href="#">Sign in</a></li>
-                <li><a href="#">Sign up</a></li>
-            </ul>
-        </div>
-    </nav>
+
 
     <main>
         {% block content %}
