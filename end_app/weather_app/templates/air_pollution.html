@@ -1,17 +1,103 @@
 {% block content %}
 
-{% if air_pollution_data %}
-<!--    Air Pollution details here    -->
-    <h2>Air Quality Informations</h2>
-    <p>Air quality index: {{ air_pollution_data.aqi }}</p>
-    <p>Carbon Monoxide : {{ air_pollution_data.co }}</p>
-    <p>Carbon Monoxide : {{ air_pollution_data.no }}</p>
-    <p>Nitrogen Dioxide : {{ air_pollution_data.no2 }}</p>
-    <p>Ozone : {{ air_pollution_data.o3 }}</p>
-    <p>Sulfur Dioxide : {{ air_pollution_data.so2 }}</p>
-    <p>Particulate Matter 2.5 : {{ air_pollution_data.pm2_5 }}</p>
-    <p>Particulate Matter 10 : {{ air_pollution_data.pm10 }}</p>
-    <p>Ammonia : {{ air_pollution_data.nh3 }}</p>
-{% endif %}
+    <form method="POST">
+        {% csrf_token %}
+        {{ city_form.as_p }}
+        <p>You can also search for a second city to compare pollution values.</p>
+        <input type="submit" value="Submit">
+    </form>
+
+    {% if error %}
+        <p>Error: {{ error }}</p>
+    {% else %}
+
+        {% if air_pollution_data %}
+            <h2>Air Quality Informations</h2>
+            <div style="display: flex; justify-content: space-between;">
+                <div>
+                    <h3>{{ city_name }}</h3>
+                    {% for data in air_pollution_data %}
+                        <p>{{ data.field_name|upper }}: {{ data.value }}
+                            ({{ data.scale }}, {{ data.qualitative_name }})</p>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+
+        {% if second_air_pollution_data %}
+            <div style="display: flex; justify-content: space-between;">
+                <div>
+                    <h3>{{ second_city_name }}</h3>
+                    {% for data in second_air_pollution_data %}
+                        <p>{{ data.field_name|upper }}: {{ data.value }}
+                            ({{ data.scale }}, {{ data.qualitative_name }})</p>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+
+        {% if second_air_pollution_data %}
+        <h3>Comparison for both cities</h3>
+            <table>
+                <tr>
+                    <th>Qualitative name</th>
+                    <th>{{ city_name }}</th>
+                    <th>{{ second_city_name }}</th>
+                    <th>Comparison</th>
+                </tr>
+                {% for data in air_pollution_data %}
+                    <tr>
+                        <td>{{ data.field_name|upper }}:</td>
+                        <td>{{ data.value }} ({{ data.scale }}, {{ data.qualitative_name }})</td>
+                        {% for second_data in second_air_pollution_data %}
+                            {% if second_data.field_name == data.field_name %}
+                                <td>{{ second_data.value }} ({{ second_data.scale }}, {{ second_data.qualitative_name }})</td>
+                            {% endif %}
+                        {% endfor %}
+                        {% for comparison in comparison_data %}
+                            {% if comparison.field_name == data.field_name %}
+                                <td>{{ comparison.comparison }}</td>
+                            {% endif %}
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+
+        <div>
+            <h4>Descriptions</h4>
+            <p><strong>Sulfur Dioxide (SO2):</strong>
+                A colorless gas that is toxic and can cause respiratory problems.
+                The scale ranges from 0 to 350 μg/m³, with lower values being better.
+                The qualitative names for the index are: Good (0-20 μg/m³), Fair (20-80 μg/m³),
+                Moderate (80-250 μg/m³), Poor (250-350 μg/m³), and Very Poor (⩾350 μg/m³).</p>
+            <p><strong>Nitrogen Dioxide (NO2):</strong>
+                A reddish-brown gas that is toxic and can cause respiratory problems.
+                The scale ranges from 0 to 200 μg/m³, with lower values being better.
+                The qualitative names for the index are: Good (0-40 μg/m³), Fair (40-70 μg/m³),
+                Moderate (70-150 μg/m³), Poor (150-200 μg/m³), and Very Poor (⩾200 μg/m³).</p>
+            <p><strong>Particulate Matter 10 (PM10):</strong>
+                Coarse particles that are less than 10 micrometers in diameter.
+                The scale ranges from 0 to 200 μg/m³, with lower values being better.
+                The qualitative names for the index are: Good (0-20 μg/m³), Fair (20-50 μg/m³),
+                Moderate (50-100 μg/m³), Poor (100-200 μg/m³), and Very Poor (⩾200 μg/m³).</p>
+            <p><strong>Particulate Matter 2.5 (PM2.5):</strong>
+                Fine particles that are less than 2.5 micrometers in diameter.
+                scale ranges from 0 to 75 μg/m³, with lower values being better.
+                The qualitative names for the index are: Good (0-10 μg/m³), Fair (10-25 μg/m³),
+                Moderate (25-50 μg/m³), Poor (50-75 μg/m³), and Very Poor (⩾75 μg/m³).</p>
+            <p><strong>Ozone (O3):</strong>
+                A pale blue gas that is toxic and can cause respiratory problems.
+                The scale ranges from 0 to 180 μg/m³, with lower values being better.
+                The qualitative names for the index are: Good (0-60 μg/m³), Fair (60-100 μg/m³),
+                Moderate (100-140 μg/m³), Poor (140-180 μg/m³), and Very Poor (⩾180 μg/m³).</p>
+            <p><strong>Carbon Monoxide (CO):</strong>
+                A colorless, odorless gas that is toxic to humans and animals.
+                The scale ranges from 0 to 15400μg/m3, with lower values being better.
+                The qualitative names for the index are: Good (0-4400μg/m3), Fair(4400-9400μg/m3),
+                Moderate(9400-12400μg/m3) ,Poor(12400-15400μg/m3) and Very Poor(⩾15400μg/m3).</p>
+        </div>
+
+    {% endif %}
 
 {% endblock %}
