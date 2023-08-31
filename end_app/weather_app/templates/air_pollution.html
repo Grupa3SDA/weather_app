@@ -1,0 +1,17 @@
+{% block content %}
+
+{% if air_pollution_data %}
+<!--    Air Pollution details here    -->
+    <h2>Air Quality Informations</h2>
+    <p>Air quality index: {{ air_pollution_data.aqi }}</p>
+    <p>Carbon Monoxide : {{ air_pollution_data.co }}</p>
+    <p>Carbon Monoxide : {{ air_pollution_data.no }}</p>
+    <p>Nitrogen Dioxide : {{ air_pollution_data.no2 }}</p>
+    <p>Ozone : {{ air_pollution_data.o3 }}</p>
+    <p>Sulfur Dioxide : {{ air_pollution_data.so2 }}</p>
+    <p>Particulate Matter 2.5 : {{ air_pollution_data.pm2_5 }}</p>
+    <p>Particulate Matter 10 : {{ air_pollution_data.pm10 }}</p>
+    <p>Ammonia : {{ air_pollution_data.nh3 }}</p>
+{% endif %}
+
+{% endblock %}

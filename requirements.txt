@@ -1,3 +1,4 @@
 Django
 Python-dotenv
+requests
 Pillow
