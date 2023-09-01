@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'end_app',
     'weather_app',
     'social_django',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
