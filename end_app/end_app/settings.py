@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     'end_app',
     'weather_app',
+    'social_django',
 ]
 
 MIDDLEWARE = [
