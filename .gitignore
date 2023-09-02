@@ -1,5 +1,13 @@
-# Created by https://www.toptal.com/developers/gitignore/api/python,django,pycharm+all,visualstudiocode
-# Edit at https://www.toptal.com/developers/gitignore?templates=python,django,pycharm+all,visualstudiocode
+# Created by https://www.toptal.com/developers/gitignore/api/python,pycharm+all,django,visualstudiocode,certificates
+# Edit at https://www.toptal.com/developers/gitignore?templates=python,pycharm+all,django,visualstudiocode,certificates
+
+### certificates ###
+*.pem
+*.key
+*.crt
+*.cer
+*.der
+*.priv
 
 ### Django ###
 *.log
@@ -370,4 +378,4 @@ pyrightconfig.json
 .history
 .ionide
 
-# End of https://www.toptal.com/developers/gitignore/api/python,django,pycharm+all,visualstudiocode
+# End of https://www.toptal.com/developers/gitignore/api/python,pycharm+all,django,visualstudiocode,certificates
