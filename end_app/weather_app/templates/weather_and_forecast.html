@@ -1,7 +1,5 @@
 {% extends 'base.html' %}
-
 {% block content %}
-
     <div class="search-city">
         <form method="POST">
             {% csrf_token %}
@@ -9,12 +7,10 @@
             <input type="submit" value="Search">
         </form>
     </div>
-
     <div class="info-wrapper container">
         {% if error %}
             <p>Error: {{ error }}</p>
         {% else %}
-
         {% if weather_data %}
             <!--    Weather details here    -->
             <div class="weather">
@@ -45,7 +41,6 @@
                 </div>
             </div>
         {% endif %}
-
         {% if forecast_data %}
             <!--    Forecast details Here   -->
             <div class="forecast">
@@ -71,5 +66,4 @@
         {% endif %}
         {% endif %}
     </div>
-
 {% endblock %}
