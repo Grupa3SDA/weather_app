@@ -3,20 +3,20 @@
 <html>
 <head>
     <title>{% block title %}{% endblock %}</title>
-    <link href="{% static "css/base.css" %}" rel="stylesheet">
+    <link href="{% static 'accounts/css/base.css' %}" rel="stylesheet">
 </head>
 <body>
     <div id="header">
         <span class="logo">Weather App</span>
         {% if request.user.is_authenticated %}
             <ul class="menu">
-                <li {% if section == "dashboard" %}class="selected"{% endif %}>
-                    <a href="{% url "dashboard" %}">My dashboard</a>
+                <li {% if section == "dashboard" %} class="selected"{% endif %}>
+                    <a href="{% url "dashboard" %}"> My dashboard</a>
                 </li>
-                <li {%if section == "First panel" %}class="selected"{% endif %}>
+                <li {% if section == "First panel" %} class="selected"{% endif %}>
                     <a href="#">First panel</a>
                 </li>
-                <li {% if section == "Second panel" %}class="selected"{% endif %}>
+                <li {% if section == "Second panel" %} class="selected"{% endif %}>
                     <a href="#">Second panel</a>
                 </li>
             </ul>

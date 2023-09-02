@@ -29,7 +29,8 @@ def handle_http_errors(view_func):
                 error_message = "Only 60 API calls per minute in our plan, please wait before your next search."
                 context.update({'error': error_message})
             else:
-                raise e
+                error_message = "Unspecified error occurred, please contact website service administrator."
+                context.update({'error': error_message})
             return render(request, "weather_and_forecast.html", context)
     return wrapper
 
@@ -53,29 +54,39 @@ def weather_and_forecast_view(request):
 
 @handle_http_errors
 def air_pollution_view(request):
-    city_form = CityFormForTwoCities(request.POST or None)
-    context = {'city_form': city_form}
-    if request.method == 'POST' and city_form.is_valid():
-        city_name = city_form.cleaned_data['city_name']
-        second_city_name = city_form.cleaned_data.get('second_city_name')
-        weather_service = WeatherService(city_name)
-        weather_service.get_air_pollution()
-        air_pollution_data = weather_service.air_pollution_data.to_list()
-        context.update({
-            'city_name': city_name,
-            'air_pollution_data': air_pollution_data,
-        })
-        if second_city_name:
-            second_weather_service = WeatherService(second_city_name)
-            second_weather_service.get_air_pollution()
-            second_air_pollution_data = second_weather_service.air_pollution_data.to_list()
-            comparison_data = weather_service.air_pollution_data.compare_air_quality(
-                second_weather_service.air_pollution_data)
-
-            context.update({
-                'second_city_name': second_city_name,
-                'second_air_pollution_data': second_air_pollution_data,
-                'comparison_data': comparison_data,
-            })
-
+    if request.method == 'GET':
+        city_form = CityFormForTwoCities()
+        context = {'city_form': city_form}
         return render(request, "air_pollution.html", context)
+
+    if request.method == 'POST':
+        city_form = CityFormForTwoCities(request.POST)
+        context = {'city_form': city_form}
+        if city_form.is_valid():
+            city_name = city_form.cleaned_data['city_name']
+            second_city_name = city_form.cleaned_data.get('second_city_name')
+            weather_service = WeatherService(city_name)
+            weather_service.get_air_pollution()
+            air_pollution_data = weather_service.air_pollution_data.to_list()
+            context.update({
+                'city_name': city_name,
+                'air_pollution_data': air_pollution_data,
+            })
+            if second_city_name:
+                second_weather_service = WeatherService(second_city_name)
+                second_weather_service.get_air_pollution()
+                second_air_pollution_data = second_weather_service.air_pollution_data.to_list()
+                comparison_data = weather_service.air_pollution_data.compare_air_quality(
+                    second_weather_service.air_pollution_data)
+
+                context.update({
+                    'second_city_name': second_city_name,
+                    'second_air_pollution_data': second_air_pollution_data,
+                    'comparison_data': comparison_data,
+                })
+
+            return render(request, "air_pollution.html", context)
+
+
+def city_details(request):
+    return render(request, "city-details.html")
