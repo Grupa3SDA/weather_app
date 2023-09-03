@@ -29,7 +29,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG") == "True"
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['weatherapp.eu', 'localhost', '127.0.0.1']  # Localhost urls
 
 # Application definition
 
@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     'end_app',
     'weather_app',
+    'social_django',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -119,6 +121,9 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 
+MEDIA_URL = 'media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
@@ -130,11 +135,33 @@ LOGOUT_URL = "logout"
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
-MEDIA_URL = 'media/'
-MEDIA_ROOT = BASE_DIR / 'media'
-
 # Added for project production
 # SECURITY WARNING: keep the weather api key used in production secret!
 WEATHER_API_KEY = os.getenv("WEATHER_API_KEY")
 FORECAST_API_KEY = os.getenv("FORECAST_API_KEY")
 AIR_POLLUTION_API_KEY = os.getenv("AIR_POLLUTION_API_KEY")
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.facebook.FacebookOAuth2',
+]
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.getenv("SOCIAL_AUTH_GOOGLE_OAUTH2_KEY")
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.getenv("SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET")
+
+SOCIAL_AUTH_FACEBOOK_KEY = os.getenv("SOCIAL_AUTH_FACEBOOK_KEY")
+SOCIAL_AUTH_FACEBOOK_SECRET = os.getenv("SOCIAL_AUTH_FACEBOOK_SECRET")
+
+SOCIAL_AUTH_PIPELINE = [
+    "social_core.pipeline.social_auth.social_details",
+    "social_core.pipeline.social_auth.social_uid",
+    "social_core.pipeline.social_auth.auth_allowed",
+    "social_core.pipeline.social_auth.social_user",
+    "social_core.pipeline.user.get_username",
+    "social_core.pipeline.user.create_user",
+    "accounts.authentication.create_profile",
+    "social_core.pipeline.social_auth.associate_user",
+    "social_core.pipeline.social_auth.load_extra_data",
+    "social_core.pipeline.user.user_details",
+]
