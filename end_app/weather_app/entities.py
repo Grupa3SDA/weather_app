@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, fields
 from datetime import datetime
 
 
@@ -103,25 +103,143 @@ class ForecastData:
 @dataclass
 class AirPollutionData:
     aqi: int
-    co: int
-    no: int
-    no2: int
-    o3: int
-    so2: int
-    pm2_5: int
-    pm10: int
-    nh3: int
+    co: float
+    no: float
+    no2: float
+    o3: float
+    so2: float
+    pm2_5: float
+    pm10: float
+    nh3: float
 
     @classmethod
     def from_raw_air_pollution_data(cls, air_pollution_data):
         return cls(
             aqi=air_pollution_data["list"][0]["main"]["aqi"],
-            co=air_pollution_data['list'][0]['components']["co"],
-            no=air_pollution_data['list'][0]['components']["no"],
-            no2=air_pollution_data['list'][0]['components']["no2"],
-            o3=air_pollution_data['list'][0]['components']["o3"],
-            so2=air_pollution_data['list'][0]['components']["so2"],
-            pm2_5=air_pollution_data['list'][0]['components']["pm2_5"],
-            pm10=air_pollution_data['list'][0]['components']["pm10"],
-            nh3=air_pollution_data['list'][0]['components']["nh3"],
+            co=round(air_pollution_data['list'][0]['components']["co"], 1),
+            no=round(air_pollution_data['list'][0]['components']["no"], 1),
+            no2=round(air_pollution_data['list'][0]['components']["no2"], 1),
+            o3=round(air_pollution_data['list'][0]['components']["o3"], 1),
+            so2=round(air_pollution_data['list'][0]['components']["so2"], 1),
+            pm2_5=round(air_pollution_data['list'][0]['components']["pm2_5"], 1),
+            pm10=round(air_pollution_data['list'][0]['components']["pm10"], 1),
+            nh3=round(air_pollution_data['list'][0]['components']["nh3"], 1),
         )
+
+    def get_scale_and_qualitative(self, value):
+        if value == 'aqi':
+            return '0-500', None
+        elif value == 'co':
+            if self.co < 4400:
+                qualitative_name = 'Good'
+            elif self.co < 9400:
+                qualitative_name = 'Fair'
+            elif self.co < 12400:
+                qualitative_name = 'Moderate'
+            elif self.co < 15400:
+                qualitative_name = 'Poor'
+            else:
+                qualitative_name = 'Very Poor'
+            return '0-15400μg/m3', qualitative_name
+        elif value == 'no':
+            if self.no < 100:
+                qualitative_name = 'Good'
+            else:
+                qualitative_name = 'Very Poor'
+            return '0-100ppb', qualitative_name
+        elif value == 'no2':
+            if self.no2 < 40:
+                qualitative_name = 'Good'
+            elif self.no2 < 70:
+                qualitative_name = 'Fair'
+            elif self.no2 < 150:
+                qualitative_name = 'Moderate'
+            elif self.no2 < 200:
+                qualitative_name = 'Poor'
+            else:
+                qualitative_name = 'Very Poor'
+            return '0-200ppb', qualitative_name
+        elif value == 'o3':
+            if self.o3 < 60:
+                qualitative_name = 'Good'
+            elif self.o3 < 100:
+                qualitative_name = 'Fair'
+            elif self.o3 < 140:
+                qualitative_name = 'Moderate'
+            elif self.o3 < 180:
+                qualitative_name = 'Poor'
+            else:
+                qualitative_name = 'Very Poor'
+            return '0-180ppb', qualitative_name
+        elif value == 'so2':
+            if self.so2 < 20:
+                qualitative_name = 'Good'
+            elif self.so2 < 80:
+                qualitative_name = 'Fair'
+            elif self.so2 < 250:
+                qualitative_name = 'Moderate'
+            elif self.so2 < 350:
+                qualitative_name = 'Poor'
+            else:
+                qualitative_name = 'Very Poor'
+            return '0-350ppb', qualitative_name
+        elif value == 'pm2_5':
+            if self.pm2_5 < 10:
+                qualitative_name = 'Good'
+            elif self.pm2_5 < 25:
+                qualitative_name = 'Fair'
+            elif self.pm2_5 < 50:
+                qualitative_name = 'Moderate'
+            elif self.pm2_5 < 75:
+                qualitative_name = 'Poor'
+            else:
+                qualitative_name = 'Very Poor'
+            return '0-75μg/m³', qualitative_name
+        elif value == 'pm10':
+            if self.pm10 < 20:
+                qualitative_name = "Good"
+            elif self.pm10 < 50:
+                qualitative_name = "Fair"
+            elif self.pm10 < 100:
+                qualitative_name = "Moderate"
+            elif self.pm10 < 200:
+                qualitative_name = "Poor"
+            else:
+                qualitative_name = "Very Poor"
+            return "0-200μg/m³", qualitative_name
+        elif value == "nh3":
+            if self.nh3 < 200:
+                quantitative_value = "Good"
+            else:
+                quantitative_value = "Very Poor"
+            return "0-200ppb", quantitative_value
+
+    def to_list(self):
+        result = []
+        for field in fields(self):
+            field_name = field.name
+            value = getattr(self, field_name)
+            scale, qualitative_name = self.get_scale_and_qualitative(field_name)
+            if qualitative_name:
+                result.append({"field_name": field_name, "value": value,
+                               "scale": scale, "qualitative_name": qualitative_name})
+            else:
+                result.append({"field_name": field_name, "value": value, "scale": scale})
+        return result
+
+    def compare_air_quality(self, other):
+        self_data = self.to_list()
+        other_data = other.to_list()
+        result = []
+        for self_measurement, other_measurement in zip(self_data, other_data):
+            field_name = self_measurement["field_name"]
+            self_value = self_measurement["value"]
+            other_value = other_measurement["value"]
+            if self_value < other_value:
+                comparison = "better in first city"
+            elif self_value > other_value:
+                comparison = "better in second city"
+            else:
+                comparison = "equal in both cities"
+            result.append({"field_name": field_name, "comparison": comparison})
+        return result
