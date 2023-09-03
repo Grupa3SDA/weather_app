@@ -2,7 +2,7 @@ Django
 Python-dotenv
 requests
 Pillow
-git+https://github.com/python-social-auth/social-app-django.git
+social-app-django
 django-extensions
 werkzeug
 pyOpenSSL
