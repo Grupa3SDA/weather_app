@@ -147,46 +147,6 @@
           {% endif %}
         {% endif %}
 
-        {% if second_air_pollution_data %}
-            <div style="display: flex; justify-content: space-between;">
-                <div>
-                    <h3>{{ second_city_name }}</h3>
-                    {% for data in second_air_pollution_data %}
-                        <p>{{ data.field_name|upper }}: {{ data.value }}
-                            ({{ data.scale }}, {{ data.qualitative_name }})</p>
-                    {% endfor %}
-                </div>
-            </div>
-        {% endif %}
-
-        {% if second_air_pollution_data %}
-        <h3>Comparison for both cities</h3>
-            <table>
-                <tr>
-                    <th>Qualitative name</th>
-                    <th>{{ city_name }}</th>
-                    <th>{{ second_city_name }}</th>
-                    <th>Comparison</th>
-                </tr>
-                {% for data in air_pollution_data %}
-                    <tr>
-                        <td>{{ data.field_name|upper }}:</td>
-                        <td>{{ data.value }} ({{ data.scale }}, {{ data.qualitative_name }})</td>
-                        {% for second_data in second_air_pollution_data %}
-                            {% if second_data.field_name == data.field_name %}
-                                <td>{{ second_data.value }} ({{ second_data.scale }}, {{ second_data.qualitative_name }})</td>
-                            {% endif %}
-                        {% endfor %}
-                        {% for comparison in comparison_data %}
-                            {% if comparison.field_name == data.field_name %}
-                                <td>{{ comparison.comparison }}</td>
-                            {% endif %}
-                        {% endfor %}
-                    </tr>
-                {% endfor %}
-            </table>
-        {% endif %}
-
         <div>
             <h4>Descriptions</h4>
             <p><strong>Sulfur Dioxide (SO2):</strong>
@@ -221,7 +181,7 @@
                 Moderate(9400-12400μg/m3) ,Poor(12400-15400μg/m3) and Very Poor(⩾15400μg/m3).</p>
           </div>
 
-        {% endif %}
+
 
 
       </div>
