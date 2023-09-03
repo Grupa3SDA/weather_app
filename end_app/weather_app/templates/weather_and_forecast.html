@@ -19,10 +19,10 @@
                 <h3 class="weather-country">{{ weather_data.name }}, {{ weather_data.country }}</h3>
                 <h2 class="weather-temp">
                     <img src="http://openweathermap.org/img/wn/{{ weather_data.weather_icon }}.png"
-                         alt="Weather Icon"></p> {{ weather_data.temperature }} 째C
+                         alt="Weather Icon"></p> {{ weather_data.temperature }} °C
                 </h2>
                 <p class="weather-feels-like">
-                    Feels like {{ weather_data.feels_like }} 째C,
+                    Feels like {{ weather_data.feels_like }} °C,
                     cloudiness {{ weather_data.cloudiness }}%,
                     {{ weather_data.weather_description }}.
                 </p>
@@ -55,7 +55,7 @@
                                     <strong>{{ forecast.time }}</strong><br/>
                                     <img src="http://openweathermap.org/img/wn/{{ forecast.weather_icon }}.png"
                                          alt="Weather Icon"><br/>
-                                    {{ forecast.temp_max }}째C/{{ forecast.temp_min }}째C<br/>
+                                    {{ forecast.temp_max }}°C/{{ forecast.temp_min }}°C<br/>
                                     {{ forecast.weather_description }}
                                 </p>
                             {% endfor %}
