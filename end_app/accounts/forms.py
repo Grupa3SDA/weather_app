@@ -41,11 +41,11 @@ class UserEditForm(forms.ModelForm):
 
     def clean_email(self):
         User = get_user_model()
-        data = self.cleaned_data['email']
-        qs = User.objects.exclude(id=self.instance.id)\
-            .filter(email=data)
-        if qs.exists():
-            raise forms.ValidationError('Email already in use.')
+        data = self.cleaned_data["email"]
+        if data != self.instance.email:
+            qs = User.objects.exclude(id=self.instance.id).filter(email=data)
+            if qs.exists():
+                raise forms.ValidationError("Email already in use.")
         return data
 
 
@@ -56,6 +56,6 @@ class ProfileEditForm(forms.ModelForm):
 
     def clean_date_of_birth(self):
         data = self.cleaned_data["date_of_birth"]
-        if data > date.today():
+        if data is not None and data > date.today():
             raise forms.ValidationError("Your date of birth cannot be in the future")
         return data

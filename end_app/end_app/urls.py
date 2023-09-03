@@ -23,6 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('weather_app.urls')),
     path('accounts/', include('accounts.urls')),
+    path('social-auth/', include('social_django.urls', namespace='social')),
 ]
 
 # Static helper for development but no production use!
