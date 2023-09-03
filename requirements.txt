@@ -2,7 +2,7 @@ Django
 Python-dotenv
 requests
 Pillow
-social-app-django
+social-auth-app-django
 django-extensions
 werkzeug
 pyOpenSSL
